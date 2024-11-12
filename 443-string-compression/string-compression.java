@@ -1,24 +1,20 @@
 class Solution {
     public int compress(char[] chars) {
-         int left =0;
-            int right = 0;
-            int k=0;
-            int n= chars.length;
-            while(right<n){
-                while(right<n && chars[right]==chars[left] ) {
-                    right++;
-                }
-                chars[k++]=chars[left];
-                int num=  right-left;
-                 if (num > 1) {
-                String countStr = Integer.toString(num);
-                for (char c : countStr.toCharArray()) {
-                    chars[k++] = c;
+        int i = 0;int ind=0;
+        while(i<chars.length){
+            char c  = chars[i];
+            int count=0;
+            while(i<chars.length && c==chars[i]){
+                i++;count++;
+            }
+            chars[ind++]=c;
+            if(count>1){
+                for(char c1 : String.valueOf(count).toCharArray()){
+                    chars[ind++]=c1;
                 }
             }
-                left=right;
 
-            }
-            return k;
+        }
+        return ind;
     }
 }
