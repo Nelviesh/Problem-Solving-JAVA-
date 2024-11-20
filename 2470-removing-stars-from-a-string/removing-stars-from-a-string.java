@@ -1,24 +1,19 @@
 class Solution {
     public String removeStars(String s) {
-        StringBuffer str=new StringBuffer();
-        int n=s.length();
-        Stack<Character>  stack= new Stack<>();
-        int i=0;
-        while (i<n){
-            if(s.charAt(i)!='*'){
-                stack.push(s.charAt(i));
-            }
-            else{
-                stack.pop();
+        StringBuilder result = new StringBuilder();
 
-
+        // Iterate through each character in the string
+        for (char ch : s.toCharArray()) {
+            if (ch != '*') {
+                // Append non-star characters
+                result.append(ch);
+            } else if (result.length() > 0) {
+                // Remove the last character if '*' is encountered
+                result.setLength(result.length() - 1);
             }
-            i++;
         }
 
-        for (Character ch : stack) {
-            str.append(ch);
-        }
-        return str.toString();
+        // Convert StringBuilder to String and return
+        return result.toString();
     }
 }
