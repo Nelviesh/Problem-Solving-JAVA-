@@ -2,8 +2,10 @@ class Solution {
     public boolean containsDuplicate(int[] nums) {
         Set<Integer> numSet = new HashSet<>();
         for (int num : nums) {
-            numSet.add(num);
+            if (!numSet.add(num)) { // add() returns false if the element is already present
+                return true; // Return immediately if a duplicate is found
+            }
         }
-        return numSet.size() < nums.length;
+        return false; // No duplicates found
     }
 }
