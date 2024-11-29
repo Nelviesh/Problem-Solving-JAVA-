@@ -1,26 +1,35 @@
-import java.util.*;
-
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
-        Set<List<Integer>> result = new HashSet<>();
-        int n = nums.length;
-
-        for (int i = 0; i < n - 2; i++) {
-            Set<Integer> seen = new HashSet<>();
-            for (int j = i + 1; j < n; j++) {
-                int complement = -nums[i] - nums[j];
-                if (seen.contains(complement)) {
-                    // Form the triplet
-                    List<Integer> triplet = Arrays.asList(nums[i], nums[j], complement);
-                    // Sort the triplet to handle duplicates
-                    triplet.sort(null);
-                    result.add(triplet);
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums); // Sort the array to handle duplicates and use two pointers
+        
+        for (int i = 0; i < nums.length - 2; i++) {
+            // Avoid duplicates for the first number
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+            
+            int left = i + 1;
+            int right = nums.length - 1;
+            
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                
+                if (sum == 0) {
+                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                    
+                    // Move pointers to skip duplicates
+                    while (left < right && nums[left] == nums[left + 1]) left++;
+                    while (left < right && nums[right] == nums[right - 1]) right--;
+                    
+                    left++;
+                    right--;
+                } else if (sum < 0) {
+                    left++;
                 } else {
-                    seen.add(nums[j]);
+                    right--;
                 }
             }
         }
-
-        return new ArrayList<>(result);
+        
+        return result;
     }
 }
