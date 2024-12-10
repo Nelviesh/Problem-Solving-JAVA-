@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 class Solution {
     public String[] findWords(String[] words) {
         String str1 = "qwertyuiop";
@@ -13,41 +16,29 @@ class Solution {
 
         List<Character> list2 = new ArrayList<>();
         for (int i = 0; i < str2.length(); i++) {
-            list2.add(str2.charAt(i));  // Fixed: was adding to list1, changed to list2
+            list2.add(str2.charAt(i));
         }
 
         List<Character> list3 = new ArrayList<>();
         for (int i = 0; i < str3.length(); i++) {
-            list3.add(str3.charAt(i));  // Fixed: was adding to list1, changed to list3
+            list3.add(str3.charAt(i));
         }
-
-        // Array of words to check
-        
 
         // Check each word
-        for (int i = 0; i < words.length; i++) {
-            String str = words[i];
+        List<String> validWords = new ArrayList<>();
+        for (String str : words) {
             List<Character> list = new ArrayList<>();
             for (int j = 0; j < str.length(); j++) {
-                list.add(Character.toLowerCase(str.charAt(j)));  // Convert to lower case to avoid case issues
+                list.add(Character.toLowerCase(str.charAt(j)));  // Convert to lower case
             }
 
-            // Check if all characters are in the same row of the keyboard
-            if (list1.containsAll(list)) {
-                words[count] = str;
-                count++;
-            } else if (list2.containsAll(list)) {
-                words[count] = str;
-                count++;
-            } else if (list3.containsAll(list)) {
-                words[count] = str;
-                count++;
+            // Check if all characters of the word are in the same row
+            if (list1.containsAll(list) || list2.containsAll(list) || list3.containsAll(list)) {
+                validWords.add(str);
             }
         }
-        String[] result=new String[count];
-        for (int v = 0; v < count; v++) {
-            result[v]=words[v];
-        }
-        return result;
+
+        // Convert the List of valid words to an array
+        return validWords.toArray(new String[0]);
     }
 }
