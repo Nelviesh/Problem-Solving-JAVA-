@@ -1,44 +1,44 @@
-import java.math.BigInteger;
-
-
-
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        // Convert ListNode l1 to a string in reverse order
-        StringBuilder str1 = new StringBuilder();
-        StringBuilder str2 = new StringBuilder();
+        ListNode dummy = new ListNode(0); // Dummy node to simplify result list creation
+        ListNode current = dummy;  // Pointer to build the new list
+        int carry = 0; // Initialize carry to 0
 
-        while (l1 != null) {
-            str1.append(l1.val);
-            l1 = l1.next;
-        }
-        while (l2 != null) {
-            str2.append(l2.val);
-            l2 = l2.next;
-        }
+        // Traverse both lists until both are exhausted
+        while (l1 != null || l2 != null || carry != 0) {
+            int sum = carry;
 
-        // Reverse the strings to get the actual numbers
-        str1.reverse();
-        str2.reverse();
+            // Add value from l1 if available
+            if (l1 != null) {
+                sum += l1.val;
+                l1 = l1.next;
+            }
 
-        // Use BigInteger to handle large numbers
-        BigInteger num1 = new BigInteger(str1.toString());
-        BigInteger num2 = new BigInteger(str2.toString());
+            // Add value from l2 if available
+            if (l2 != null) {
+                sum += l2.val;
+                l2 = l2.next;
+            }
 
-        // Sum the two numbers
-        BigInteger sum = num1.add(num2);
+            // Calculate new carry and the digit to store
+            carry = sum / 10;
+            int digit = sum % 10;
 
-        // Convert the sum back into a string and reverse it
-        String sumStr = new StringBuilder(sum.toString()).reverse().toString();
-
-        // Construct the resulting linked list
-        ListNode dummy = new ListNode(0);
-        ListNode current = dummy;
-        for (char c : sumStr.toCharArray()) {
-            current.next = new ListNode(Character.getNumericValue(c));
-            current = current.next;
+            // Add the digit to the new linked list
+            current.next = new ListNode(digit);
+            current = current.next; // Move to the next node
         }
 
-        return dummy.next;
+        return dummy.next; // Return the head of the new list
     }
 }
