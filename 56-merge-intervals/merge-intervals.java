@@ -1,28 +1,35 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 class Solution {
     public int[][] merge(int[][] intervals) {
-        
-
         // Sort intervals based on the start time
         Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
 
-        int[][] merged = new int[intervals.length][2];
-        int k = 0; // Pointer for the merged array
+        List<int[]> merged = new ArrayList<>();
 
-        // Initialize the first interval
-        merged[k][0] = intervals[0][0];
-        merged[k][1] = intervals[0][1];
+        // Initialize with the first interval
+        int[] currentInterval = intervals[0];
+        merged.add(currentInterval);
 
         for (int i = 1; i < intervals.length; i++) {
-            if (intervals[i][0] <= merged[k][1]) {
+            // Get the last interval in the merged list
+            int currentEnd = currentInterval[1];
+            int nextStart = intervals[i][0];
+            int nextEnd = intervals[i][1];
+
+            if (nextStart <= currentEnd) {
                 // Overlapping intervals, merge them
-                merged[k][1] = Math.max(merged[k][1], intervals[i][1]);
+                currentInterval[1] = Math.max(currentEnd, nextEnd);
             } else {
-                // No overlap, move to the next interval
-                k++;
-                merged[k][0] = intervals[i][0];
-                merged[k][1] = intervals[i][1];
+                // No overlap, add the next interval
+                currentInterval = intervals[i];
+                merged.add(currentInterval);
             }
         }
-        return Arrays.copyOfRange(merged, 0, k + 1);
+
+        // Convert the list back to a 2D array and return
+        return merged.toArray(new int[merged.size()][]);
     }
 }
