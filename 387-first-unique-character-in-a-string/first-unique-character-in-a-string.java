@@ -1,29 +1,16 @@
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
-
 class Solution {
     public int firstUniqChar(String s) {
-        // Step 1: Count the frequency of each character
-        HashMap<Character, Integer> charCount = new HashMap<>();
-        Queue<int[]> queue = new LinkedList<>();
+        // Step 1: Count frequencies of characters
+        int[] charCount = new int[26]; // For 26 lowercase English letters
 
         for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            charCount.put(c, charCount.getOrDefault(c, 0) + 1);
-
-            // Add character and its index to the queue
-            queue.offer(new int[] {c, i});
+            charCount[s.charAt(i) - 'a']++; // Increment frequency
         }
 
-        // Step 2: Process the queue to find the first unique character
-        while (!queue.isEmpty()) {
-            int[] front = queue.poll();
-            char c = (char) front[0];
-            int index = front[1];
-
-            if (charCount.get(c) == 1) {
-                return index; // First unique character found
+        // Step 2: Find the first unique character by traversing the string
+        for (int i = 0; i < s.length(); i++) {
+            if (charCount[s.charAt(i) - 'a'] == 1) {
+                return i; // Return the index of the first unique character
             }
         }
 
