@@ -1,26 +1,29 @@
+import java.util.Arrays;
+
 class Solution {
     public int[] findErrorNums(int[] nums) {
         int n = nums.length;
-
-        // Cyclic sort to place numbers at their correct positions
-        for (int i = 0; i < n; ) {
-            if (nums[i] != nums[nums[i] - 1]) {
-                // Swap nums[i] with nums[nums[i] - 1]
-                int temp = nums[i];
-                nums[i] = nums[temp - 1];
-                nums[temp - 1] = temp;
-            } else {
-                i++;
+        int[] result = new int[2]; // Array to store [duplicate, missing]
+        
+        Arrays.sort(nums); // Sort the array
+        
+        int duplicate = -1, missing = 1; 
+        
+        for (int i = 1; i < n; i++) {
+            if (nums[i] == nums[i - 1]) {
+                duplicate = nums[i]; // Found duplicate
+            } else if (nums[i] > nums[i - 1] + 1) {
+                missing = nums[i - 1] + 1; // Found missing number
             }
         }
 
-        // Find the duplicate and missing numbers
-        for (int i = 0; i < n; i++) {
-            if (nums[i] != i + 1) {
-                return new int[]{nums[i], i + 1};
-            }
+        // If the missing number is at the end (e.g., [1,2,3,3])
+        if (nums[n - 1] != n) {
+            missing = n;
         }
 
-        return new int[]{-1, -1}; // Fallback, should not reach here
+        result[0] = duplicate;
+        result[1] = missing;
+        return result;
     }
 }
