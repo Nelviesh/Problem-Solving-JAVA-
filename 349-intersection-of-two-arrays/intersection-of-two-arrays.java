@@ -18,6 +18,14 @@ class Solution {
         }
 
         // Convert the Set to an int array
-        return intersection.stream().mapToInt(i -> i).toArray();
+        int size = intersection.size();
+        int[] inter = new int[size];
+        
+        int index = 0;
+        for (int num : intersection) {
+            inter[index++] = num;
+        }
+
+        return inter;
     }
 }
