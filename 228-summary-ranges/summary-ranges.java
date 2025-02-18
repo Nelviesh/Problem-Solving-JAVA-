@@ -2,7 +2,7 @@ class Solution {
     public List<String> summaryRanges(int[] nums) {
         int size = nums.length;
         List<String> list = new ArrayList<>();
-        StringBuilder str = new StringBuilder();
+        
         int i = 0;
 
         while (i < size) {
